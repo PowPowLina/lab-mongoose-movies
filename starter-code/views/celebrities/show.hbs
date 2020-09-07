@@ -1,0 +1,13 @@
+{{#with celebrity}}
+<h2>{{name}}</h2>
+
+<span>{{name}} is a {{occupation}}</span>
+<p>"{{catchPhrase}}" describes {{name}} best</p>
+
+{{/with}}
+<a href="/celebrities">Back to List of Celebrities</a>
+
+
+<form action="/celebrities/{{celebrity._id}}/delete" method="POST">
+  <button type="submit">Delete this Celebrity</button>
+</form>
