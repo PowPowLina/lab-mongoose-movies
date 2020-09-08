@@ -4,5 +4,17 @@
     <p>
         <a href="/movies/{{_id}}">{{ title }}</a>
     </p>
+    <p>{{ genre }}</p>
+    <p>{{ plot }}</p>
+    <h4>Cast:</h4>
+    <ul>
+        {{#each cast}}
+        <li>
+            {{name}}
+        </li>
+        {{/each}}
+    </ul>
 {{/each}}
+
+<br>
 <a href="/movies/new">Add a Movie</a>

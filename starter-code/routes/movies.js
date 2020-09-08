@@ -1,10 +1,12 @@
 const express = require('express');
-const Movie = require('../models/Movie');
 const router  = express.Router();
+
+const Movie = require('../models/Movie');
+const Celebrity = require('../models/Celebrity')
 
 /* GET home page */
 router.get('/movies', (req, res, next) => {
-    Movie.find().then((movies) => {
+    Movie.find().populate('cast').then((movies) => {
         console.log(movies);
         res.render('movies/index', { movies });
     })
@@ -14,9 +16,34 @@ router.get('/movies', (req, res, next) => {
 });
 
 router.get('/movies/new', (req, res)=> {
-    res.render('movies/new');
+    Celebrity.find().then(celebritiesFromDb => {
+        res.render('movies/new', { celebrities: celebritiesFromDb});
+    }).catch(error => {
+        next(error);
+    });
+    
 });
 
+
+
+
+router.post('/movies', (req, res) => {
+    const { title, genre, plot, cast } = req.body;
+    Movie.create({
+        title,
+        genre,
+        plot,
+        cast
+    }).then(movie => {
+        console.log('IST HIER EIN CAAAAST?:', cast);
+      console.log(`New Movie, ${movie}`);
+      res.redirect('/movies');
+    }).catch(error => {
+      console.log(error);
+      res.redirect('/');
+    });
+ 
+ });
 
 
 module.exports = router;
